@@ -1,0 +1,53 @@
+apiVersion: flink.apache.org/v1beta1
+kind: FlinkDeployment
+metadata:
+  name: {{ include "flink.fullname" . }}
+spec:
+  image: hoale/flink:1.18
+  flinkVersion: v1_18
+  flinkConfiguration:
+    taskmanager.numberOfTaskSlots: "2"
+    state.savepoints.dir: file:///opt/flink/flink-data/savepoints
+    state.checkpoints.dir: file:///opt/flink/flink-data/checkpoints
+    high-availability: org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory
+    high-availability.storageDir: file:///opt/flink/flink-data/ha
+    kubernetes.operator.job.autoscaler.enabled: "true"
+    kubernetes.operator.job.autoscaler.stabilization.interval: 1m
+    kubernetes.operator.job.autoscaler.metrics.window: 5m
+    kubernetes.operator.job.autoscaler.target.utilization: "0.6"
+    kubernetes.operator.job.autoscaler.target.utilization.boundary: "0.2"
+    kubernetes.operator.job.autoscaler.restart.time: 2m
+    kubernetes.operator.job.autoscaler.catch-up.duration: 5m
+    pipeline.max-parallelism: "720"
+  serviceAccount: {{ include "flink.serviceAccountName" . }}
+  podTemplate:
+    spec:
+      containers:
+        - name: flink-main-container
+          volumeMounts:
+            - mountPath: /opt/flink/flink-data
+              name: flink-data
+      volumes:
+        - name: flink-data
+          emptyDir: { }
+  jobManager:
+    resource:
+      memory: "2048m"
+      cpu: 1
+    podTemplate:
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        name: task-manager-pod-template
+      spec:
+        containers:
+          - name: flink-sql-gateway
+            image: hoale/flink:1.18
+            command: [ 'sh','-c','./bin/sql-gateway.sh start-foreground -Dsql-gateway.endpoint.rest.address=0.0.0.0' ]
+            ports:
+              - name: sqlgateway
+                containerPort: 8083
+  taskManager:
+    resource:
+      memory: "2048m"
+      cpu: 1

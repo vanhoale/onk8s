@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqlgateway
+spec:
+  ports:
+    - port: 8083
+      name: sqlgateway
+      protocol: TCP
+      targetPort: 8083
+  selector:
+    component: jobmanager
+  type: LoadBalancer
