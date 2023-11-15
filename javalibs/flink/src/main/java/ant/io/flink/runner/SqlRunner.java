@@ -1,5 +1,6 @@
 package ant.io.flink.runner;
 
+import org.apache.commons.text.StringSubstitutor;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.table.api.TableEnvironment;
 import org.apache.flink.util.FileUtils;
@@ -31,6 +32,8 @@ public class SqlRunner {
     private static final String ESCAPED_BEGIN_CERTIFICATE = "======BEGIN CERTIFICATE=====";
     private static final String ESCAPED_END_CERTIFICATE = "=====END CERTIFICATE=====";
 
+    private static StringSubstitutor SUBSTITUTOR = new StringSubstitutor(System.getenv());
+
     public static void main(String[] args) throws Exception {
         if (args.length != 1) {
             throw new Exception("Exactly one argument is expected.");
@@ -50,7 +53,7 @@ public class SqlRunner {
                 tableEnv.getConfig().getConfiguration().setString(key, value);
             } else {
                 LOG.info("Executing:\n{}", statement);
-                String envReplaced = ReplaceEnvironmentVariable.replace(statement);
+                String envReplaced = SUBSTITUTOR.replace(statement);
                 tableEnv.executeSql(envReplaced);
             }
         }
