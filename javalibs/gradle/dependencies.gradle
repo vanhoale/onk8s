@@ -1,0 +1,26 @@
+ext {
+    versions = [:]
+    libs = [:]
+}
+
+versions += [
+        junitJupiter: "5.9.2",
+        junitPioneer: "2.1.0",
+        slf4j: "1.7.36",
+        log4j: "2.17.1",
+        flink: "1.18.0",
+]
+
+libs += [
+        junitJupiterApi: "org.junit.jupiter:junit-jupiter-api:$versions.junitJupiter",
+        junitJupiterEngine: "org.junit.jupiter:junit-jupiter-engine:$versions.junitJupiter",
+        junitPioneer: "org.junit-pioneer:junit-pioneer:$versions.junitPioneer",
+        slf4jApi: "org.slf4j:slf4j-api:$versions.slf4j",
+        log4jImpl: "org.apache.logging.log4j:log4j-core:$versions.log4j",
+        log4jApi: "org.apache.logging.log4j:log4j-api:$versions.log4j",
+        flinkStreamingJava: "org.apache.flink:flink-streaming-java:$versions.flink",
+        flinkTableApiJava: "org.apache.flink:flink-table-api-java:$versions.flink",
+        flinkTable: "org.apache.flink:flink-table:$versions.flink",
+        flinkTablePlanner: "org.apache.flink:flink-table-planner_2.12:$versions.flink",
+        flinkClients: "org.apache.flink:flink-clients:$versions.flink",
+]

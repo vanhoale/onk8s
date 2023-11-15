@@ -1,0 +1,53 @@
+buildscript {
+    apply from: "$rootDir/gradle/dependencies.gradle"
+}
+
+plugins {
+    id 'java'
+    id 'java-library'
+    id 'com.diffplug.spotless' version '6.22.0' apply false
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
+
+
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'com.diffplug.spotless'
+    tasks.create(name: "copyDependantLibs", type: Copy) {
+        from (configurations.runtimeClasspath) {
+            exclude('kafka-streams*')
+        }
+        into "$buildDir/dependant-libs"
+        duplicatesStrategy 'exclude'
+    }
+    jar {
+        dependsOn copyDependantLibs
+    }
+}
+
+project(':flink') {
+    dependencies {
+        implementation libs.slf4jApi
+        implementation libs.log4jApi
+        implementation libs.log4jImpl
+        implementation libs.flinkStreamingJava
+        implementation libs.flinkTableApiJava
+        implementation libs.flinkTablePlanner
+        implementation libs.flinkClients
+        testImplementation libs.junitJupiterApi
+        testImplementation libs.junitJupiterEngine
+        testImplementation libs.junitPioneer
+    }
+}
