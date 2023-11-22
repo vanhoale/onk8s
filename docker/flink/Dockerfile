@@ -14,7 +14,7 @@ ADD https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-avro-conflue
 
 
 # FLINK OTHERS
-ADD https://repo.maven.apache.org/maven2/org/apache/flink/flink-shaded-guava/18.0-9.0/flink-shaded-guava-18.0-9.0.jar $FLINK_LIB
+ADD https://repo.maven.apache.org/maven2/org/apache/flink/flink-shaded-guava/30.1.1-jre-16.2/flink-shaded-guava-30.1.1-jre-16.2.jar $FLINK_LIB
 
 USER root
 

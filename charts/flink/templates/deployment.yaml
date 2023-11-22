@@ -4,6 +4,7 @@ metadata:
   name: {{ include "flink.fullname" . }}
 spec:
   image: hoale/flink:1.18
+  imagePullPolicy: Always
   flinkVersion: v1_18
   flinkConfiguration:
     taskmanager.numberOfTaskSlots: "2"
