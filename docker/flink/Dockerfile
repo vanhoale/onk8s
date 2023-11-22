@@ -20,6 +20,6 @@ USER root
 
 RUN chown -R flink:flink /opt/flink/lib/
 
-USER flink
+#USER flink
 
 EXPOSE 8083
