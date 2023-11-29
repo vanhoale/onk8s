@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kaf
+  labels:
+    app: kaf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kaf
+  template:
+    metadata:
+      labels:
+        app: kaf
+    spec:
+      containers:
+      - name: kaf
+        image: hoale/kaf:latest
+        command: ["sh", "-c", "tail -f /dev/null"]
