@@ -12,7 +12,7 @@ ADD https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-jdbc-driver/
 ADD https://github.com/knaufk/flink-faker/releases/download/v0.5.3/flink-faker-0.5.3.jar $FLINK_LIB
 ADD https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-kafka/3.0.2-1.18/flink-sql-connector-kafka-3.0.2-1.18.jar $FLINK_LIB
 RUN mkdir $FLINK_HOME/plugins/s3-fs-hadoop
-RUN cp $FLINK_HOME/opt/flink-s3-fs-hadoop-1.18.0.jar $FLINK_HOME/plugins/s3-fs-hadoop/
+ADD https://repo1.maven.org/maven2/org/apache/flink/flink-s3-fs-hadoop/1.18.1/flink-s3-fs-hadoop-1.18.1.jar $FLINK_HOME/plugins/s3-fs-hadoop/
 
 # FLINK FORMATS
 ADD https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-avro-confluent-registry/1.18.0/flink-sql-avro-confluent-registry-1.18.0.jar $FLINK_LIB
