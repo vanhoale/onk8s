@@ -11,10 +11,10 @@ spec:
     state.backend: rocksdb
     state.backend.incremental: "true"
     process.working-dir: /opt/flink/flink-data/working-dir
-    state.savepoints.dir: file:///opt/flink/flink-data/savepoints
-    state.checkpoints.dir: file:///opt/flink/flink-data/checkpoints
-    high-availability: org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory
-    high-availability.storageDir: file:///opt/flink/flink-data/ha
+    state.savepoints.dir: s3://flink/flink-data/savepoints
+    state.checkpoints.dir: s3://flink/flink-data/checkpoints
+    high-availability.type: org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory
+    high-availability.storageDir: s3://flink/flink-data/ha
     kubernetes.operator.job.autoscaler.enabled: "true"
     kubernetes.operator.job.autoscaler.stabilization.interval: 1m
     kubernetes.operator.job.autoscaler.metrics.window: 5m
@@ -53,16 +53,31 @@ spec:
       apiVersion: v1
       kind: Pod
       metadata:
-        name: task-manager-pod-template
+        name: job-manager-pod-template
       spec:
         containers:
+          - name: flink-main-container
+            env:
+            - name: AWS_ENDPOINT_URL
+              value: "http://aws-localstack:4566"             
           - name: flink-sql-gateway
             image: hoale/flink:1.18
             command: [ 'sh','-c','./bin/sql-gateway.sh start-foreground -Dsql-gateway.endpoint.rest.address=0.0.0.0' ]
             ports:
               - name: sqlgateway
-                containerPort: 8083
+                containerPort: 8083               
   taskManager:
     resource:
       memory: "2048m"
       cpu: 1
+    podTemplate:
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        name: task-manager-pod-template
+      spec:
+        containers:
+          - name: flink-main-container
+            env:
+            - name: AWS_ENDPOINT_URL
+              value: "http://aws-localstack:4566"       
