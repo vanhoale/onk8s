@@ -9,7 +9,7 @@ ADD https://repo1.maven.org/maven2/org/postgresql/postgresql/42.6.0/postgresql-4
 ADD https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-jdbc-driver/1.18.0/flink-sql-jdbc-driver-1.18.0.jar $FLINK_LIB
 ADD https://github.com/knaufk/flink-faker/releases/download/v0.5.3/flink-faker-0.5.3.jar $FLINK_LIB
 ADD https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-kafka/3.0.2-1.18/flink-sql-connector-kafka-3.0.2-1.18.jar $FLINK_LIB
-RUN cp $FLINK_HOME/opt/flink-s3-fs-hadoop-1.18.0.jar $FLINK_LIB
+COPY $FLINK_HOME/opt/flink-s3-fs-hadoop-1.18.0.jar $FLINK_LIB
 
 # FLINK FORMATS
 ADD https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-avro-confluent-registry/1.18.0/flink-sql-avro-confluent-registry-1.18.0.jar $FLINK_LIB
