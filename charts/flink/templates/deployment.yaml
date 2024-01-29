@@ -59,13 +59,24 @@ spec:
           - name: flink-main-container
             env:
             - name: AWS_ENDPOINT_URL
-              value: "http://aws-localstack:4566"             
+              value: "http://aws-localstack.localstack:4566" 
+            - name: AWS_ACCESS_KEY_ID
+              value: "test"
+            - name: AWS_SECRET_ACCESS_KEY
+              value: "test"              
           - name: flink-sql-gateway
             image: hoale/flink:1.18
             command: [ 'sh','-c','./bin/sql-gateway.sh start-foreground -Dsql-gateway.endpoint.rest.address=0.0.0.0' ]
             ports:
               - name: sqlgateway
-                containerPort: 8083               
+                containerPort: 8083     
+            env:
+            - name: AWS_ENDPOINT_URL
+              value: "http://aws-localstack.localstack:4566" 
+            - name: AWS_ACCESS_KEY_ID
+              value: "test"
+            - name: AWS_SECRET_ACCESS_KEY
+              value: "test"                             
   taskManager:
     resource:
       memory: "2048m"
@@ -80,4 +91,8 @@ spec:
           - name: flink-main-container
             env:
             - name: AWS_ENDPOINT_URL
-              value: "http://aws-localstack:4566"       
+              value: "http://aws-localstack.localstack:4566"   
+            - name: AWS_ACCESS_KEY_ID
+              value: "test"
+            - name: AWS_SECRET_ACCESS_KEY
+              value: "test"                     

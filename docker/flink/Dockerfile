@@ -23,7 +23,9 @@ ADD https://repo.maven.apache.org/maven2/org/apache/flink/flink-shaded-guava/30.
 
 
 RUN chown -R flink:flink /opt/flink/
+COPY . /root/ 
 
 #USER flink
+
 
 EXPOSE 8083
