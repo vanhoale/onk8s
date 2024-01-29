@@ -56,14 +56,12 @@ spec:
         name: job-manager-pod-template
       spec:
         containers:
-          - name: flink-main-container
-            env:
-            - name: AWS_ENDPOINT_URL
-              value: "http://aws-localstack.localstack:4566" 
-            - name: AWS_ACCESS_KEY_ID
-              value: "test"
-            - name: AWS_SECRET_ACCESS_KEY
-              value: "test"              
+          # - name: flink-main-container
+          #   env:
+          #   - name: AWS_ACCESS_KEY_ID
+          #     value: "test"
+          #   - name: AWS_SECRET_ACCESS_KEY
+          #     value: "test"              
           - name: flink-sql-gateway
             image: hoale/flink:1.18
             command: [ 'sh','-c','./bin/sql-gateway.sh start-foreground -Dsql-gateway.endpoint.rest.address=0.0.0.0' ]
@@ -71,8 +69,6 @@ spec:
               - name: sqlgateway
                 containerPort: 8083     
             env:
-            - name: AWS_ENDPOINT_URL
-              value: "http://aws-localstack.localstack:4566" 
             - name: AWS_ACCESS_KEY_ID
               value: "test"
             - name: AWS_SECRET_ACCESS_KEY
@@ -81,18 +77,16 @@ spec:
     resource:
       memory: "2048m"
       cpu: 1
-    podTemplate:
-      apiVersion: v1
-      kind: Pod
-      metadata:
-        name: task-manager-pod-template
-      spec:
-        containers:
-          - name: flink-main-container
-            env:
-            - name: AWS_ENDPOINT_URL
-              value: "http://aws-localstack.localstack:4566"   
-            - name: AWS_ACCESS_KEY_ID
-              value: "test"
-            - name: AWS_SECRET_ACCESS_KEY
-              value: "test"                     
+    # podTemplate:
+    #   apiVersion: v1
+    #   kind: Pod
+    #   metadata:
+    #     name: task-manager-pod-template
+    #   spec:
+    #     containers:
+    #       - name: flink-main-container
+    #         env:
+    #         - name: AWS_ACCESS_KEY_ID
+    #           value: "test"
+    #         - name: AWS_SECRET_ACCESS_KEY
+    #           value: "test"                     
