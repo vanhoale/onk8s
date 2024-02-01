@@ -10,6 +10,7 @@ spec:
     taskmanager.numberOfTaskSlots: "2"
     state.backend: rocksdb
     state.backend.incremental: "true"
+    execution.checkpointing.interval: "10000"
     process.working-dir: /opt/flink/flink-data/working-dir
     state.savepoints.dir: s3://flink/flink-data/savepoints
     state.checkpoints.dir: s3://flink/flink-data/checkpoints
